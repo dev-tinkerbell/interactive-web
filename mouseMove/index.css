@@ -1,0 +1,18 @@
+html {
+  /* cursor: none; */
+}
+body {
+  background-color: #333;
+}
+h1 {
+  color: #fff;
+}
+.mouse {
+  font-size: 3rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  user-select: none;
+  /* transition: all 0.5s cubic-bezier(0.64, 0.005, 0.255, 1.255); */
+  transition: all 0.5s linear;
+}
