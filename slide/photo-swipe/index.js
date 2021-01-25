@@ -1,9 +1,9 @@
-var initPhotoSwipeFromDOM = function (gallerySelector) {
+const initPhotoSwipeFromDOM = function (gallerySelector) {
 
   // parse slide data (url, title, size ...) from DOM elements 
   // (children of gallerySelector)
-  var parseThumbnailElements = function (el) {
-    var thumbElements = el.childNodes,
+  const parseThumbnailElements = function (el) {
+    let thumbElements = el.childNodes,
       numNodes = thumbElements.length,
       items = [],
       figureEl,
@@ -11,7 +11,7 @@ var initPhotoSwipeFromDOM = function (gallerySelector) {
       size,
       item;
 
-    for (var i = 0; i < numNodes; i++) {
+    for (let i = 0; i < numNodes; i++) {
 
       figureEl = thumbElements[i]; // <figure> element
 
@@ -51,19 +51,19 @@ var initPhotoSwipeFromDOM = function (gallerySelector) {
   };
 
   // find nearest parent element
-  var closest = function closest(el, fn) {
+  const closest = function closest(el, fn) {
     return el && (fn(el) ? el : closest(el.parentNode, fn));
   };
 
   // triggers when user clicks on thumbnail
-  var onThumbnailsClick = function (e) {
+  const onThumbnailsClick = function (e) {
     e = e || window.event;
     e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
-    var eTarget = e.target || e.srcElement;
+    const eTarget = e.target || e.srcElement;
 
     // find root element of slide
-    var clickedListItem = closest(eTarget, function (el) {
+    const clickedListItem = closest(eTarget, function (el) {
       return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
     });
 
@@ -73,13 +73,13 @@ var initPhotoSwipeFromDOM = function (gallerySelector) {
 
     // find index of clicked item by looping through all child nodes
     // alternatively, you may define index via data- attribute
-    var clickedGallery = clickedListItem.parentNode,
+    let clickedGallery = clickedListItem.parentNode,
       childNodes = clickedListItem.parentNode.childNodes,
       numChildNodes = childNodes.length,
       nodeIndex = 0,
       index;
 
-    for (var i = 0; i < numChildNodes; i++) {
+    for (let i = 0; i < numChildNodes; i++) {
       if (childNodes[i].nodeType !== 1) {
         continue;
       }
@@ -101,20 +101,20 @@ var initPhotoSwipeFromDOM = function (gallerySelector) {
   };
 
   // parse picture index and gallery index from URL (#&pid=1&gid=2)
-  var photoswipeParseHash = function () {
-    var hash = window.location.hash.substring(1),
+  const photoswipeParseHash = function () {
+    const hash = window.location.hash.substring(1),
       params = {};
 
     if (hash.length < 5) {
       return params;
     }
 
-    var vars = hash.split('&');
-    for (var i = 0; i < vars.length; i++) {
+    const vars = hash.split('&');
+    for (let i = 0; i < vars.length; i++) {
       if (!vars[i]) {
         continue;
       }
-      var pair = vars[i].split('=');
+      const pair = vars[i].split('=');
       if (pair.length < 2) {
         continue;
       }
@@ -128,8 +128,8 @@ var initPhotoSwipeFromDOM = function (gallerySelector) {
     return params;
   };
 
-  var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
-    var pswpElement = document.querySelectorAll('.pswp')[0],
+  const openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
+    let pswpElement = document.querySelectorAll('.pswp')[0],
       gallery,
       options,
       items;
@@ -158,7 +158,7 @@ var initPhotoSwipeFromDOM = function (gallerySelector) {
       if (options.galleryPIDs) {
         // parse real index when custom PIDs are used 
         // http://photoswipe.com/documentation/faq.html#custom-pid-in-url
-        for (var j = 0; j < items.length; j++) {
+        for (let j = 0; j < items.length; j++) {
           if (items[j].pid == index) {
             options.index = j;
             break;
@@ -187,15 +187,15 @@ var initPhotoSwipeFromDOM = function (gallerySelector) {
   };
 
   // loop through all gallery elements and bind events
-  var galleryElements = document.querySelectorAll(gallerySelector);
+  const galleryElements = document.querySelectorAll(gallerySelector);
 
-  for (var i = 0, l = galleryElements.length; i < l; i++) {
+  for (let i = 0, l = galleryElements.length; i < l; i++) {
     galleryElements[i].setAttribute('data-pswp-uid', i + 1);
     galleryElements[i].onclick = onThumbnailsClick;
   }
 
   // Parse URL and open gallery if it contains #&pid=3&gid=1
-  var hashData = photoswipeParseHash();
+  const hashData = photoswipeParseHash();
   if (hashData.pid && hashData.gid) {
     openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true);
   }
